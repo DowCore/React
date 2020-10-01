@@ -9,7 +9,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-//import CameraScreen from './screens/CameraScreen.js';
+import CameraScreen from './screens/CameraScreen.js';
 import HomeScreen from './screens/HomeScreen';
 import ClickedPhoto from './screens/ClickedPhoto';
 const Stack = createStackNavigator();
@@ -30,6 +30,13 @@ export default class App extends React.Component {
               },
               animationEnabled: false,
               headerTitleAlign: 'center',
+            }}
+          />
+          <Stack.Screen
+            name="CameraScreen"
+            component={CameraScreen}
+            options={{
+              headerShown: false,
             }}
           />
           <Stack.Screen

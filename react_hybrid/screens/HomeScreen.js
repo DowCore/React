@@ -24,7 +24,7 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            this.props.navigation.navigate('ClickedPhoto');
+            this.props.navigation.navigate('CameraScreen');
           }}>
           <Icon name="id-card" size={25} color="yellow" />
           <Text style={{color: 'white', fontSize: 20, paddingVertical: 10}}>
