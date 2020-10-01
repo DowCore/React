@@ -7,8 +7,7 @@ import {
   Image,
   Alert,
 } from 'react-native';
-
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -25,8 +24,9 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            this.props.navigation.navigate('CameraScreen');
+            this.props.navigation.navigate('ClickedPhoto');
           }}>
+          <Icon name="id-card" size={25} color="yellow" />
           <Text style={{color: 'white', fontSize: 20, paddingVertical: 10}}>
             Take Snap
           </Text>

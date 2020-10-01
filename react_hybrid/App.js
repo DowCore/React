@@ -11,8 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 //import CameraScreen from './screens/CameraScreen.js';
 import HomeScreen from './screens/HomeScreen';
-//import ClickedPhoto from './screens/ClickedPhoto';
-
+import ClickedPhoto from './screens/ClickedPhoto';
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
@@ -31,6 +30,13 @@ export default class App extends React.Component {
               },
               animationEnabled: false,
               headerTitleAlign: 'center',
+            }}
+          />
+          <Stack.Screen
+            name="ClickedPhoto"
+            component={ClickedPhoto}
+            options={{
+              headerShown: true,
             }}
           />
         </Stack.Navigator>
