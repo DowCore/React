@@ -1,0 +1,17 @@
+<h1>这是个测试</h1>
+<button type="button" onclick="onCLick('test')">Click Me!</button>
+<button type="button" onclick="onCLick('camera')">拍照</button>
+<button type="button" onclick="onCLick('geolocation')">获取位置</button>
+<div id="test"></div>
+<script type="text/javascript">
+    function onCLick(type) {
+       let para={type:type}
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify(para)
+        );
+    }
+
+    function onMessage(data){
+        document.getElementById("test").innerText=data;
+    }
+</script>

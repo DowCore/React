@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import {Alert, Platform, BackHandler} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import CameraScreen from './screens/CameraScreen.js';
@@ -15,6 +16,39 @@ import ClickedPhoto from './screens/ClickedPhoto';
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
+  componentWillMount() {
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+  componentWillUnmount() {
+    if (Platform.OS === 'android') {
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+  onBackAndroid = () => {
+    Alert.alert(
+      '提示',
+      '是否确定退出',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            return true;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            return false;
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+    return true;
+  };
   render() {
     return (
       <NavigationContainer>
@@ -23,13 +57,7 @@ export default class App extends React.Component {
             name="HomeScreen"
             component={HomeScreen}
             options={{
-              title: 'Camera',
-              headerTintColor: 'black',
-              headerStyle: {
-                backgroundColor: '#A4B0BD',
-              },
-              animationEnabled: false,
-              headerTitleAlign: 'center',
+              headerShown: false,
             }}
           />
           <Stack.Screen

@@ -29,6 +29,10 @@ const wbOrder = {
 const landmarkSize = 2;
 
 export default class CameraScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
   state = {
     flash: 'off',
     zoom: 0,
@@ -124,14 +128,34 @@ export default class CameraScreen extends React.Component {
 
   takePicture = async function () {
     if (this.camera) {
+      console.log('这里获取：');
+      console.log(this.props);
+      console.log('相机');
+      this.props.navigation.navigate('HomeScreen', {
+        type: 'HomeScreen',
+        data: data,
+      });
       const data = await this.camera.takePictureAsync();
+      console.log('相机');
+      this.props.navigation.navigate('HomeScreen', {
+        type: 'HomeScreen',
+        data: data,
+      });
       Alert.alert('Alert Title', data.uri, [
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        {
+          text: 'OK',
+          onPress: () => {
+            this.props.navigation.navigate('HomeScreen', {
+              type: 'HomeScreen',
+              data: data,
+            });
+          },
+        },
       ]);
       console.warn('takePicture ', data);
     }

@@ -13,17 +13,7 @@ export default class ClickedPhoto extends React.Component {
 
     const {photo} = this.props.route.params;
 
-    return (
-      <View style={styles.container}>
-        <Image
-          style={styles.imageHolder}
-          resizeMode="center"
-          source={photo === 'empty' ? require('../assets/icon.png') : photo}
-          width={width}
-          height={height}
-        />
-      </View>
-    );
+    return <View style={styles.container} />;
   }
 }
 
