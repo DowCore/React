@@ -7,47 +7,34 @@
  */
 
 import React from 'react';
-import {Alert, Platform, BackHandler} from 'react-native';
+import {Platform, BackHandler, ToastAndroid} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import CameraScreen from './screens/CameraScreen.js';
 import HomeScreen from './screens/HomeScreen';
 import ClickedPhoto from './screens/ClickedPhoto';
 const Stack = createStackNavigator();
-
 export default class App extends React.Component {
   componentWillMount() {
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
   }
+  firstClick = 0;
   componentWillUnmount() {
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
     }
   }
   onBackAndroid = () => {
-    Alert.alert(
-      '提示',
-      '是否确定退出',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => {
-            return true;
-          },
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            return false;
-          },
-        },
-      ],
-      {cancelable: false},
-    );
-    return true;
+    let timestamp = new Date().valueOf();
+    if (timestamp - this.firstClick > 3000) {
+      this.firstClick = timestamp;
+      ToastAndroid.show('再按一次退出', ToastAndroid.SHORT);
+      return true;
+    } else {
+      return false;
+    }
   };
   render() {
     return (
