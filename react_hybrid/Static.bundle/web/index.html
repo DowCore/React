@@ -1,4 +1,5 @@
 <h1>这是个测试</h1>
+<img src="" id="img" alt="">
 <button type="button" onclick="onCLick('test')">Click Me!</button>
 <button type="button" onclick="onCLick('camera')">拍照</button>
 <button type="button" onclick="onCLick('geolocation')">获取位置</button>
@@ -12,6 +13,8 @@
     }
 
     function onMessage(data){
+        let model= JSON.parse(data);
         document.getElementById("test").innerText=data;
+        document.getElementById("img").src=model.data;
     }
 </script>

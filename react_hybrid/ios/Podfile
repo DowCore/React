@@ -8,6 +8,8 @@ target 'react_hybrid' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'react_hybridTests' do
     inherit! :complete
     # Pods for testing

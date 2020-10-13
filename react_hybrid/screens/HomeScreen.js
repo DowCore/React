@@ -1,19 +1,16 @@
 import React from 'react';
-import {StyleSheet, Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-  }
-  watchID = '';
-  count = 0;
-  getInitialState() {
-    return {
+    this.state = {
       initialPosition: 'unknown',
       lastPosition: 'unknown',
     };
   }
+  watchID = '';
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.sendMessage();
@@ -23,7 +20,7 @@ export default class HomeScreen extends React.Component {
         var initialPosition = JSON.stringify(position);
         this.setState({initialPosition});
       },
-      (error) => () => {
+      () => () => {
         Alert.alert(
           '提示',
           '获取位置信息出错',
@@ -54,7 +51,6 @@ export default class HomeScreen extends React.Component {
     }
   }
   sendGeolocation() {
-    this.count++;
     let context = JSON.stringify({
       type: 'test',
       data: '位置' + this.state.initialPosition,
@@ -63,8 +59,18 @@ export default class HomeScreen extends React.Component {
     this.webref.injectJavaScript(js);
   }
   sendMessage() {
-    this.count++;
-    let context = JSON.stringify({type: 'test', data: '拍照' + this.count});
+    let context = '';
+    if (this.props.route && this.props.route.params) {
+      console.log('进入网页内容发送');
+      let pars = this.props.route.params;
+      switch (pars.view) {
+        case 'camera':
+          context = JSON.stringify({type: pars.view, data: pars.data});
+          break;
+      }
+    }
+    console.log('接收返回值');
+    console.log(context);
     let js = `onMessage('${context}');true;`;
     this.webref.injectJavaScript(js);
   }

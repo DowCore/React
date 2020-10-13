@@ -15,7 +15,7 @@ import HomeScreen from './screens/HomeScreen';
 import ClickedPhoto from './screens/ClickedPhoto';
 const Stack = createStackNavigator();
 export default class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
