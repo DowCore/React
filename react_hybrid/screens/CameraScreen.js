@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {RNCamera} from 'react-native-camera';
 import CameraRoll from '@react-native-community/cameraroll';
+import RNFS from 'react-native-fs';
 export default class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -117,7 +118,7 @@ export default class CameraScreen extends React.Component {
         if (promise) {
           this.setState({isRecording: true});
           const data = await promise;
-          console.warn('takeVideo', data);
+          this.saveVideo(data.uri);
         }
       } catch (e) {
         console.error(e);
@@ -126,12 +127,7 @@ export default class CameraScreen extends React.Component {
   };
   stopVideo = async () => {
     const data = await this.camera.stopRecording();
-    console.log(data);
     this.setState({isRecording: false});
-    this.props.navigation.navigate('CameraScreen', {
-      view: 'camera',
-      data: data,
-    });
   };
   hasAndroidPermission = async () => {
     const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -150,16 +146,38 @@ export default class CameraScreen extends React.Component {
     let that = this;
     CameraRoll.save(tag, {type: 'photo', album: 'dow_album'})
       .then((result) => {
+        let fileName = tag.substring(tag.lastIndexOf('/') + 1);
+        let fullPath = 'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
         ToastAndroid.show('保存成功', ToastAndroid.SHORT);
         that.props.navigation.navigate('HomeScreen', {
           view: 'camera',
-          data: result,
+          data: fullPath,
         });
       })
       .catch(function (error) {
         ToastAndroid.show('保存失败', ToastAndroid.SHORT);
       });
   };
+  saveVideo= async (tag) => {
+    if (Platform.OS === 'android' && !(await this.hasAndroidPermission())) {
+      ToastAndroid.show('无权限', ToastAndroid.SHORT);
+      return;
+    }
+    let that = this;
+    CameraRoll.save(tag, {type: 'video', album: 'dow_album'})
+      .then((result) => {
+        let fileName = tag.substring(tag.lastIndexOf('/') + 1);
+        let fullPath = 'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
+        ToastAndroid.show('保存成功', ToastAndroid.SHORT);
+        that.props.navigation.navigate('HomeScreen', {
+          view: 'video',
+          data: fullPath,
+        });
+      })
+      .catch(function (error) {
+        ToastAndroid.show('保存失败', ToastAndroid.SHORT);
+      });
+    }
 }
 const styles = StyleSheet.create({
   container: {
