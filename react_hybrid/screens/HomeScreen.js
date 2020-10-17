@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, View} from 'react-native';
+import {Alert} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
 export default class HomeScreen extends React.Component {
@@ -85,6 +85,7 @@ export default class HomeScreen extends React.Component {
         source={{uri: source}}
         sharedCookiesEnabled={true}
         onMessage={this.onMessage.bind(this)}
+        mixedContentMode={'always'}
       />
     );
   }

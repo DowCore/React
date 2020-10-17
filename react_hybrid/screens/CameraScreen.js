@@ -147,9 +147,10 @@ export default class CameraScreen extends React.Component {
     CameraRoll.save(tag, {type: 'photo', album: 'dow_album'})
       .then((result) => {
         let fileName = tag.substring(tag.lastIndexOf('/') + 1);
-        let fullPath = 'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
+        let fullPath =
+          'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
         ToastAndroid.show('保存成功', ToastAndroid.SHORT);
-        that.props.navigation.navigate('HomeScreen', {
+        that.props.navigation.navigate('ClickedPhoto', {
           view: 'camera',
           data: fullPath,
         });
@@ -158,7 +159,7 @@ export default class CameraScreen extends React.Component {
         ToastAndroid.show('保存失败', ToastAndroid.SHORT);
       });
   };
-  saveVideo= async (tag) => {
+  saveVideo = async (tag) => {
     if (Platform.OS === 'android' && !(await this.hasAndroidPermission())) {
       ToastAndroid.show('无权限', ToastAndroid.SHORT);
       return;
@@ -167,7 +168,8 @@ export default class CameraScreen extends React.Component {
     CameraRoll.save(tag, {type: 'video', album: 'dow_album'})
       .then((result) => {
         let fileName = tag.substring(tag.lastIndexOf('/') + 1);
-        let fullPath = 'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
+        let fullPath =
+          'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
         ToastAndroid.show('保存成功', ToastAndroid.SHORT);
         that.props.navigation.navigate('HomeScreen', {
           view: 'video',
@@ -177,7 +179,7 @@ export default class CameraScreen extends React.Component {
       .catch(function (error) {
         ToastAndroid.show('保存失败', ToastAndroid.SHORT);
       });
-    }
+  };
 }
 const styles = StyleSheet.create({
   container: {

@@ -1,12 +1,11 @@
 <h1>这是个测试</h1>
-<img src="" id="img" alt="">
-<button type="button" onclick="onCLick('test')">Click Me!</button>
+<img src="file:///storage/emulated/0/Pictures/dow_album/6087aa9a-cbd8-44c2-b419-96a6cf45bd04.jpg" id="img" alt="">
 <button type="button" onclick="onCLick('camera')">拍照</button>
 <button type="button" onclick="onCLick('geolocation')">获取位置</button>
 <div id="test"></div>
 <script type="text/javascript">
     function onCLick(type) {
-       let para={type:type}
+       let para={type:type,data:'1'}
         window.ReactNativeWebView.postMessage(
           JSON.stringify(para)
         );
@@ -15,6 +14,6 @@
     function onMessage(data){
         let model= JSON.parse(data);
         document.getElementById("test").innerText=data;
-        document.getElementById("img").src=model.data;
+        //document.getElementById("img").src=model.data;
     }
 </script>
