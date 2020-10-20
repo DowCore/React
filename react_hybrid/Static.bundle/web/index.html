@@ -2,10 +2,17 @@
 <img src="file:///storage/emulated/0/Pictures/dow_album/6087aa9a-cbd8-44c2-b419-96a6cf45bd04.jpg" id="img" alt="">
 <button type="button" onclick="onCLick('camera')">拍照</button>
 <button type="button" onclick="onCLick('geolocation')">获取位置</button>
+<button type="button" onclick="onCLick('audio')">录音</button>
 <div id="test"></div>
 <script type="text/javascript">
+   window.onload = function() {
+    document.addEventListener('message', function(msg) {
+      document.getElementById("test").innerText=JSON.stringify(msg.data);
+    });
+}
     function onCLick(type) {
-       let para={type:type,data:'1'}
+       let para={type:type}
+       document.getElementById("test").innerText=JSON.stringify(para);
         window.ReactNativeWebView.postMessage(
           JSON.stringify(para)
         );

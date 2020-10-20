@@ -12,6 +12,12 @@ target 'react_hybrid' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'react-native-location', :path => '../node_modules/react-native-location'
+
+  pod 'RNAudio', :path => '../node_modules/react-native-audio'
+
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
   target 'react_hybridTests' do
     inherit! :complete
     # Pods for testing

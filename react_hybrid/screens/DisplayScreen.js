@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Image, Button, ScrollView} from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-export default class ClickedPhoto extends React.Component {
+export default class DisplayScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

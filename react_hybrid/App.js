@@ -12,7 +12,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import CameraScreen from './screens/CameraScreen.js';
 import HomeScreen from './screens/HomeScreen';
-import ClickedPhoto from './screens/ClickedPhoto';
+import DisplayScreen from './screens/DisplayScreen';
+import AudioScreen from './screens/AudioScreen';
 const Stack = createStackNavigator();
 export default class App extends React.Component {
   componentDidMount() {
@@ -47,20 +48,15 @@ export default class App extends React.Component {
               headerShown: false,
             }}
           />
+          <Stack.Screen name="CameraScreen" component={CameraScreen} />
           <Stack.Screen
-            name="CameraScreen"
-            component={CameraScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="ClickedPhoto"
-            component={ClickedPhoto}
+            name="DisplayScreen"
+            component={DisplayScreen}
             options={{
               headerShown: true,
             }}
           />
+          <Stack.Screen name="AudioScreen" component={AudioScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

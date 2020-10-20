@@ -126,7 +126,7 @@ export default class CameraScreen extends React.Component {
     }
   };
   stopVideo = async () => {
-    const data = await this.camera.stopRecording();
+    await this.camera.stopRecording();
     this.setState({isRecording: false});
   };
   hasAndroidPermission = async () => {
@@ -150,7 +150,7 @@ export default class CameraScreen extends React.Component {
         let fullPath =
           'file://' + RNFS.PicturesDirectoryPath + '/dow_album/' + fileName;
         ToastAndroid.show('保存成功', ToastAndroid.SHORT);
-        that.props.navigation.navigate('ClickedPhoto', {
+        that.props.navigation.navigate('HomeScreen', {
           view: 'camera',
           data: fullPath,
         });
