@@ -1,8 +1,8 @@
 import React from 'react';
-import {Alert} from 'react-native';
+import {Alert, NativeModules, NativeEventEmitter} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Geolocation from '@react-native-community/geolocation';
-import RNLocation from 'react-native-location';
+//import RNLocation from 'react-native-location';
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -13,10 +13,14 @@ export default class HomeScreen extends React.Component {
     };
   }
   watchID = '';
+  RNLocation = null;
+  eventEmitter = null;
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.sendMessage();
     });
+    this.RNLocation = NativeModules.GPSModule;
+    this.eventEmitter = new NativeEventEmitter(this.RNLocation);
     Geolocation.getCurrentPosition(
       (position) => {
         var initialPosition = JSON.stringify(position);
@@ -36,12 +40,18 @@ export default class HomeScreen extends React.Component {
       var lastPosition = JSON.stringify(position);
       this.setState({lastPosition});
     });
-
-    RNLocation.configure({
+    const emitterSubscription = this.eventEmitter.addListener(
+      'locationUpdated',
+      (locations) => {
+        this.setState({location: locations[0]});
+      },
+    );
+    this.RNLocation.startUpdatingLocation();
+    /*RNLocation.configure({
       distanceFilter: 5.0,
       androidProvider: 'standard',
-    });
-    RNLocation.requestPermission({
+    }); */
+    /*RNLocation.requestPermission({
       ios: 'whenInUse',
       android: {
         detail: 'fine',
@@ -56,7 +66,7 @@ export default class HomeScreen extends React.Component {
       if (granted) {
         this._startUpdatingLocation();
       }
-    });
+    }); */
   }
   componentWillUnmount() {
     Geolocation.clearWatch(this.watchID);
@@ -109,7 +119,7 @@ export default class HomeScreen extends React.Component {
     this.webref.postMessage(context);
   }
   _startUpdatingLocation = () => {
-    this.locationSubscription = RNLocation.subscribeToLocationUpdates(
+    this.locationSubscription = this.RNLocation.subscribeToLocationUpdates(
       (locations) => {
         this.setState({location: locations[0]});
       },
@@ -131,6 +141,10 @@ export default class HomeScreen extends React.Component {
         sharedCookiesEnabled={true}
         onMessage={this.onMessage.bind(this)}
         mixedContentMode={'always'}
+        onShouldStartLoadWithRequest={(e) => {
+          console.log('拦截', e);
+          return true;
+        }}
       />
     );
   }
